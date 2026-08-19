@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Click Recorder - Screen Recording</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="on-home">
+  <div id="homeView">
+    <header>
+      <div class="home-title">📋 Click Recorder</div>
+      <div class="controls">
+        <div class="dropdown" id="homeImportDropdown">
+          <button id="homeImportToggle" class="dropdown-toggle">Import ▾</button>
+          <div class="dropdown-menu hidden" id="homeImportMenu">
+            <button data-format="docx">📝 Word Doc</button>
+          </div>
+        </div>
+        <button id="newSopBtn" class="primary">+ New SOP</button>
+      </div>
+    </header>
+
+    <div class="home-layout">
+      <aside id="folderSidebar" class="folder-sidebar"></aside>
+      <div class="home-main">
+        <main id="sopGrid" class="sop-grid"></main>
+        <div id="homeEmptyState">
+          No SOPs yet. Click <strong>+ New SOP</strong> to start recording your
+          first one, or open a session below once you've created it.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="editorView" class="hidden">
+    <header>
+      <button id="homeBtn" title="Back to your SOPs">🏠 My SOPs</button>
+      <input id="docTitle" type="text" value="Untitled SOP" />
+      <span id="saveIndicator" class="save-indicator">All changes saved</span>
+      <div class="controls">
+        <button id="recordBtn" class="primary">● Start Recording</button>
+        <button id="pauseBtn" class="hidden">⏸ Pause</button>
+        <div class="dropdown" id="exportDropdown">
+          <button id="exportToggle" class="dropdown-toggle">Export ▾</button>
+          <div class="dropdown-menu hidden" id="exportMenu">
+            <button data-format="pdf">📄 PDF</button>
+            <button data-format="docx">📝 Word</button>
+            <button data-format="html">🌐 HTML</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="editor-layout">
+      <aside id="timelinePanel" class="timeline-panel hidden">
+        <h4>Sections</h4>
+        <div id="timelineList"></div>
+      </aside>
+      <main id="stepList"></main>
+    </div>
+
+    <div id="emptyState">
+      No steps yet. Click <strong>Start Recording</strong>, then work through
+      your process — every click becomes a step here automatically. You can
+      also add steps manually with the + between cards.
+    </div>
+  </div>
+
+  <div id="countdownOverlay" class="countdown-overlay hidden">
+    <div id="countdownNumber" class="countdown-number">3</div>
+  </div>
+
+  <div id="editorOverlay" class="editor-overlay hidden">
+    <div class="editor-modal">
+      <div class="editor-toolbar">
+        <button class="tool-btn" data-tool="pen" title="Draw">✏️ Draw</button>
+        <button class="tool-btn" data-tool="rect" title="Rectangle outline">▭ Rectangle</button>
+        <button class="tool-btn" data-tool="circle" title="Circle outline">◯ Circle</button>
+        <button class="tool-btn" data-tool="arrow" title="Arrow">↗ Arrow</button>
+        <button class="tool-btn" data-tool="blur" title="Drag over anything sensitive to redact it">🌫 Blur / Redact</button>
+        <button class="tool-btn" data-tool="crop" title="Drag to select, then Apply Crop">✂ Crop</button>
+        <button class="tool-btn" data-tool="marker" title="Drag the click marker to reposition it">🎯 Move Marker</button>
+        <input type="color" id="editorColor" value="#ff3b30" title="Color" />
+        <label>Size <input type="range" id="editorSize" min="1" max="40" value="4" /></label>
+        <span class="spacer"></span>
+        <button id="editorApplyCrop" class="hidden">Apply Crop</button>
+        <button id="editorDeleteMarker" class="hidden">🗑 Delete Marker</button>
+        <button id="editorUndo">↺ Undo</button>
+        <button id="editorReset">Reset</button>
+      </div>
+      <div class="editor-canvas-wrap">
+        <canvas id="editorCanvas"></canvas>
+      </div>
+      <div class="editor-footer">
+        <span class="hint" id="editorHint">Tip: use Blur/Redact to black out anything sensitive before exporting.</span>
+        <span class="spacer"></span>
+        <button id="editorCancel">Cancel</button>
+        <button id="editorSave" class="primary">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
