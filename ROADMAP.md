@@ -49,6 +49,5 @@ anything larger, so effort doesn't get duplicated.
 - [ ] To be added on.
 
 Hi, this is the Human speaking, I did all of this with Claude. I'ma keep the above for now but here's the real list of stuff I'm working on:
-1. Folder system still doesn't work.
-2. Imported word doc imported weirdly... main use case senario is importing from Scribe as that's what I was using before
-3. File size. Ideally, this is a small application. I'm not someone who codes or builds apps regularly, so IDK what the normal size of something like this is, but if I could get it under 100 MB forever, that would be mission accomplished for me. Maybe if it expands in scope a bit, benchmark might be keeping it under 1 GB.
+1. File size. Ideally, this is a small application. I'm not someone who codes or builds apps regularly, so IDK what the normal size of something like this is, but if I could get it under 100 MB forever, that would be mission accomplished for me. Maybe if it expands in scope a bit, benchmark might be keeping it under 1 GB.
+2. 
