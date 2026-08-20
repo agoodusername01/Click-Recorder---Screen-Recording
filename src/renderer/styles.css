@@ -373,6 +373,42 @@ main { padding: 20px; display: flex; flex-direction: column; gap: 16px; max-widt
 
 body.empty #emptyState { display: block; }
 
+/* ---------- Text prompt modal (used for "+ New Folder", since ---------- */
+/* Electron's renderer process doesn't support window.prompt()) ---------- */
+
+.text-prompt-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 210;
+}
+
+.text-prompt-overlay.hidden { display: none; }
+
+.text-prompt-modal {
+  background: var(--card);
+  border-radius: 12px;
+  width: min(360px, 90vw);
+  padding: 18px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.text-prompt-title { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
+
+.text-prompt-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+.text-prompt-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
 /* ---------- Image editor modal ---------- */
 
 .editor-overlay {

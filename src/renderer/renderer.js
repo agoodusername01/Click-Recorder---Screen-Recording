@@ -17,6 +17,42 @@ const timelinePanel = document.getElementById('timelinePanel');
 const timelineList = document.getElementById('timelineList');
 const countdownOverlay = document.getElementById('countdownOverlay');
 const countdownNumber = document.getElementById('countdownNumber');
+const textPromptOverlay = document.getElementById('textPromptOverlay');
+const textPromptTitle = document.getElementById('textPromptTitle');
+const textPromptInput = document.getElementById('textPromptInput');
+const textPromptCancel = document.getElementById('textPromptCancel');
+const textPromptOk = document.getElementById('textPromptOk');
+
+// Electron's renderer process doesn't implement window.prompt() - calling
+// it just returns nothing with no dialog ever shown, which is why "+ New
+// Folder" used to look unresponsive. This is a drop-in replacement built
+// from the app's own modal-overlay pattern (see countdown/editor overlays).
+function promptForText(title) {
+  return new Promise((resolve) => {
+    textPromptTitle.textContent = title;
+    textPromptInput.value = '';
+    textPromptOverlay.classList.remove('hidden');
+    textPromptInput.focus();
+
+    function cleanup(result) {
+      textPromptOverlay.classList.add('hidden');
+      textPromptOk.removeEventListener('click', onOk);
+      textPromptCancel.removeEventListener('click', onCancel);
+      textPromptInput.removeEventListener('keydown', onKeydown);
+      resolve(result);
+    }
+    function onOk() { cleanup(textPromptInput.value); }
+    function onCancel() { cleanup(null); }
+    function onKeydown(e) {
+      if (e.key === 'Enter') onOk();
+      if (e.key === 'Escape') onCancel();
+    }
+
+    textPromptOk.addEventListener('click', onOk);
+    textPromptCancel.addEventListener('click', onCancel);
+    textPromptInput.addEventListener('keydown', onKeydown);
+  });
+}
 
 let steps = [];
 let isRecording = false;
@@ -629,7 +665,7 @@ function renderFolderSidebar(sessions, allFolders) {
   newFolderBtn.className = 'new-folder';
   newFolderBtn.textContent = '+ New Folder…';
   newFolderBtn.addEventListener('click', async () => {
-    const name = prompt('New folder name:');
+    const name = await promptForText('New folder name');
     if (name && name.trim()) {
       // Folders are persisted separately from sessions (see main.js) so
       // an empty one still shows up here and survives a restart, rather
@@ -670,7 +706,7 @@ function buildFolderSelect(session, allFolderNames) {
     e.stopPropagation();
     let folder = select.value;
     if (folder === '__new__') {
-      const name = prompt('New folder name:');
+      const name = await promptForText('New folder name');
       if (!name || !name.trim()) {
         select.value = session.folder || '';
         return;
